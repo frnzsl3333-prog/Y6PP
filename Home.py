@@ -6,7 +6,7 @@ st.title("Welcome to My Year 6 Passion Project!")
 
 # Short introduction
 st.write("""
-Hello! My name is **Satvik Perina** and this is my **Cricket Simulator App**.  
+Hello! My name is **  ** and this is my **Cricket Simulator App**.  
 
 This app is my **Year 6 passion project**, where I learned how to:
 - Code in **Python**
@@ -37,11 +37,12 @@ I can see how math, logic, and technology work together to make games and simula
 
 # Thank you note
 st.subheader("Thank You")
-st.write("""SATVIK TYPE HERE ...................""")
+st.write(""" TYPE HERE ...................""")
 
 st.subheader("Gallery")
 # Show personal image from local directory
 st.image("MyJourney.PNG", caption="📸 My Cricket Journey", use_container_width =True)
 
 # Show personal image from local directory
+
 st.image("MyCodeJourney.PNG", caption="📸 My Coding Journey", use_container_width =True)

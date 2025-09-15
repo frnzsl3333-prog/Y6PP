@@ -1,6 +1,5 @@
 import streamlit as st
 import random
-import time
 
 st.title("Joke Generator")
 
@@ -30,33 +29,41 @@ jokes = [
     ("Why did the banana go to the doctor?", "Because it wasn’t peeling well!"),
     ("Why was the stadium so cool?", "Because it was full of fans!"),
     ("Why did the book join the football team?", "Because it had a lot of pages!"),
+    ("Why did the pie go to the dentist?","It needed a filling"),
+    ("What do you call a dog that floats?","Good buoy"),
+    ("How do cats like to bake cakes?","From scratch"),
+    ("Why do pancakes always win in baseball","Cause they have the best batter🤣 "),
+    ("What does a house wear?", "Address"),
+    ("Why didn't the Sun go to college?","It already had a million degrees")
 ]
 
+# --- Setup session state ---
+if "remaining_jokes" not in st.session_state:
+    st.session_state.remaining_jokes = jokes.copy()
+    st.session_state.current_joke = None
+    st.session_state.show_answer = False
 
-# Placeholders
-q_space = st.empty()
-a_space = st.empty()
-ans_space = st.empty()
-
+# --- Button to get a new joke ---
 if st.button("Tell me a joke"):
-    # Clear old joke
-    q_space.empty()
-    a_space.empty()
-    ans_space.empty()
+    st.session_state.show_answer = False  # reset answer view
 
-    # Pick a random joke
-    question, answer = random.choice(jokes)
+    # Reset if no jokes left
+    if not st.session_state.remaining_jokes:
+        st.session_state.remaining_jokes = jokes.copy()
 
-    # Show the question 
-    q_space.markdown(f"<h3 style='color:brown;'><b>{question}</b></h3>", unsafe_allow_html=True)
+    # Pick a random joke from remaining
+    joke = random.choice(st.session_state.remaining_jokes)
+    st.session_state.remaining_jokes.remove(joke)
+    st.session_state.current_joke = joke
 
-    # Show thinking animation
-    for dots in ["🤔", "🤔.", "🤔..", "🤔..."]:
-        a_space.write(dots + " Thinking...")
-        time.sleep(1.5)
+# --- Show the current joke ---
+if st.session_state.current_joke:
+    question, answer = st.session_state.current_joke
+    st.markdown(f"<h3 style='color:brown;'><b>{question}</b></h3>", unsafe_allow_html=True)
 
-    # Show the answer
-    a_space.empty()
-    ans_space.markdown(f"<h2 style='color:green;'><b>{answer}</b></h2>", unsafe_allow_html=True)
+    if not st.session_state.show_answer:
+        if st.button("Show Answer"):
+            st.session_state.show_answer = True
 
-
+    if st.session_state.show_answer:
+        st.markdown(f"<h2 style='color:green;'><b>{answer}</b></h2>", unsafe_allow_html=True)

@@ -1,7 +1,9 @@
 import streamlit as st
 import random
 
-st.title("Joke Generator")
+st.set_page_config(page_title="😂 Joke Generator", page_icon="🤣", layout="centered")
+
+st.title("🎉 Fun Joke Generator 🤣")
 
 # --- My list of jokes (question, answer) ---
 jokes = [
@@ -43,27 +45,52 @@ if "remaining_jokes" not in st.session_state:
     st.session_state.current_joke = None
     st.session_state.show_answer = False
 
-# --- Button to get a new joke ---
-if st.button("Tell me a joke"):
-    st.session_state.show_answer = False  # reset answer view
+# --- Layout with columns for buttons ---
+col1, col2 = st.columns(2)
 
-    # Reset if no jokes left
-    if not st.session_state.remaining_jokes:
-        st.session_state.remaining_jokes = jokes.copy()
+with col1:
+    if st.button("🤣 Tell me a joke", use_container_width=True):
+        st.session_state.show_answer = False  # reset answer view
 
-    # Pick a random joke from remaining
-    joke = random.choice(st.session_state.remaining_jokes)
-    st.session_state.remaining_jokes.remove(joke)
-    st.session_state.current_joke = joke
+        # Reset if no jokes left
+        if not st.session_state.remaining_jokes:
+            st.session_state.remaining_jokes = jokes.copy()
+
+        # Pick a random joke from remaining
+        joke = random.choice(st.session_state.remaining_jokes)
+        st.session_state.remaining_jokes.remove(joke)
+        st.session_state.current_joke = joke
+
+with col2:
+    # Show Answer / Next Joke button
+    if st.session_state.current_joke and not st.session_state.show_answer:
+        if st.button("🤓 Show Answer", use_container_width=True, key="show_btn"):
+            st.session_state.show_answer = True
+
+    elif st.session_state.current_joke and st.session_state.show_answer:
+        if st.button("➡️ Next Joke", use_container_width=True, key="next_btn"):
+            st.session_state.show_answer = False
+
+            # Reset if no jokes left
+            if not st.session_state.remaining_jokes:
+                st.session_state.remaining_jokes = jokes.copy()
+
+            # Pick a new random joke
+            joke = random.choice(st.session_state.remaining_jokes)
+            st.session_state.remaining_jokes.remove(joke)
+            st.session_state.current_joke = joke
 
 # --- Show the current joke ---
 if st.session_state.current_joke:
     question, answer = st.session_state.current_joke
-    st.markdown(f"<h3 style='color:brown;'><b>{question}</b></h3>", unsafe_allow_html=True)
 
-    if not st.session_state.show_answer:
-        if st.button("Show Answer"):
-            st.session_state.show_answer = True
+    st.markdown(
+        f"<h2 style='color:brown;'>🤔 {question}</h2>",
+        unsafe_allow_html=True
+    )
 
     if st.session_state.show_answer:
-        st.markdown(f"<h2 style='color:green;'><b>{answer}</b></h2>", unsafe_allow_html=True)
+        st.markdown(
+            f"<h2 style='color:green;'>😂 {answer}</h2>",
+            unsafe_allow_html=True
+        )

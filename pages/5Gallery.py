@@ -1,7 +1,7 @@
 # pages/Gallery_Page.py
 
 import streamlit as st
-
+import os
 # --- Page configuration ---
 st.set_page_config(
     page_title="Gallery",
@@ -12,10 +12,16 @@ st.set_page_config(
 # --- Page Title ---
 st.title("Gallery")
 
-# --- Show images from local directory ---
-st.image("MyJourney.PNG", caption="📸 My Cricket Journey", use_container_width=True)
-st.image("MyCodeJourney.PNG", caption="📸 My Coding Journey", use_container_width=True)
-st.image("Poster.PNG", caption="📸 My Project Poster", use_container_width=True)
+current_dir = os.path.dirname(__file__)
+
+# --- Load images from images folder ---
+poster_path = os.path.join(current_dir, "..", "images", "Poster.PNG")
+cricket_path = os.path.join(current_dir, "..", "images", "MyJourney.PNG")
+code_path = os.path.join(current_dir, "..", "images", "MyCodeJourney.PNG")
+
+st.image(cricket_path, caption="📸 My Cricket Journey", use_container_width=True)
+st.image(code_path, caption="📸 My Coding Journey", use_container_width=True)
+st.image(poster_path, caption="📸 My Project Poster", use_container_width=True)
 
 # --- Add Public App Link ---
 st.markdown("---")

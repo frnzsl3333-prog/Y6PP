@@ -25,10 +25,11 @@ Please **remember to fill out the feedback survey** ✅""")
 # --- Load and Display Image ---
 # Image should be in your repo folder: 'images/Feedback.JPEG'
 current_dir = os.path.dirname(__file__)
-image_path = os.path.join(current_dir, "..", "images", "Feedback.JPG")  # Relative path from pages folder
+image_path = os.path.join(current_dir, "..", "images", "Feedback.jpg")  # Relative path from pages folder
 
 try:
     feedback_img = Image.open(image_path)
     st.image(feedback_img, caption="Feedback Reminder", use_container_width=True)
 except FileNotFoundError:
     st.error("Feedback image not found! Please make sure 'images/Feedback.JPEG' exists in the repo.")
+
